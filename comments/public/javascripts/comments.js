@@ -1,8 +1,5 @@
 angular.module('app', [])
-.controller('mainCtrl', ['$scope', '$http', mainCtrl]);
-
-
-function mainCtrl ($scope, $http) {
+.controller('mainCtrl', ['$scope', '$http', function($scope, $http) {
 
   $scope.rows=[];
 
@@ -13,15 +10,28 @@ function mainCtrl ($scope, $http) {
   $scope.newYearly = 0;
 
 
-  $http.get('/income').success(function(data){
+  $http.get('/income').then(function(data){
     console.log(data);
 
-    if (data.monthlyIncome != 0)
+    if (data.data.monthlyIncome != 0)
     {
-      $scope.incomeInput.monthlyIncome = data.monthlyIncome;
-      $scope.incomeInput.yearlyIncome = data.yearlyIncome;
+      $scope.incomeInput.monthlyIncome = data.data.monthlyIncome;
+      $scope.incomeInput.yearlyIncome = data.data.yearlyIncome;
 
-      $scope.addIncome();
+
+
+      var totalMonthlyExpenses = 0;
+
+      for(var i=0; i<$scope.rows.length; i++){
+        totalMonthlyExpenses += $scope.rows[i].monthlyExpense;
+      }
+
+      var savingsTotal = ($scope.incomeInput.monthlyIncome);
+      savingsTotal -= totalMonthlyExpenses;
+
+      $scope.monthlySavings = savingsTotal;
+      $scope.yearlySavings = (savingsTotal*12);
+      $scope.savingsPercent = ($scope.monthlySavings / $scope.incomeInput.monthlyIncome * 100);
     }
 
     else
@@ -29,7 +39,30 @@ function mainCtrl ($scope, $http) {
 
     }
 
-  )};
+  });
+
+
+  $http.get('/expenses').then(function(data){
+    console.log(data);
+
+      angular.copy(data, $scope.rows);
+
+
+      var totalMonthlyExpenses = 0;
+
+      for(var i=0; i<$scope.rows.length; i++){
+        totalMonthlyExpenses += $scope.rows[i].monthlyExpense;
+      }
+
+      var savingsTotal = ($scope.incomeInput.monthlyIncome);
+      savingsTotal -= totalMonthlyExpenses;
+
+      $scope.monthlySavings = savingsTotal;
+      $scope.yearlySavings = (savingsTotal*12);
+      $scope.savingsPercent = ($scope.monthlySavings / $scope.incomeInput.monthlyIncome * 100);
+    }
+
+  });
 
 
   $scope.addIncome = function () {
@@ -49,7 +82,7 @@ function mainCtrl ($scope, $http) {
 
 
     var myJSONincome = {monthlyIncome:$scope.incomeInput.monthlyIncome, yearlyIncome:$scope.incomeInput.yearlyIncome};
-    $http.post('/income', myJSONincome).success(function(data){
+    $http.post('/income', myJSONincome).then(function(data){
       console.log("Income updated");
     });
 
@@ -138,8 +171,14 @@ function mainCtrl ($scope, $http) {
       $scope.savingsPercent = (savingsTotal/$scope.incomeInput.monthlyIncome * 100);
     }
 
+    var myJSONrows = $scope.rows;
+    $http.post('/expenses', myJSONrows).then(function(data){
+      console.log("Expenses updated");
+    });
+
   };
 }
+]);
 
 
 // $(document).ready(function(){
