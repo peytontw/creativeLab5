@@ -1,38 +1,84 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Comments!</title>
-  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="javascripts/comments.js"></script>
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="stylesheets/style.css">
-</head>
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Finance Calculator</title>
+      <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="stylesheets/style.css">
+      <script
+      src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js">
+      </script>
+      <script src="financeCalc.js"></script>
+    </head>
+    <body>
+    <div ng-app='app' ng-controller='mainCtrl' ng-init="monthlyIncome=0;yearlyIncome=0;" class = "container con">
 
-<body>
-<div id="mainDiv">
+        <div id="header">
+          <h1>Finance Calculator</h1>
+        </div>
 
-  <div id="header">
-    <h1>Comments!</h1>
-  </div>
+      <div id="income" class = "container">
+        <p>Enter Income:</p>
 
-  <div id="content" class="container con">
-  <form id="commentForm" action="">
-    <label for="name">Name:  </label><input type="text" id="name" placeholder="Name"><br>
-    <label for="comment">Comment:  </label><input type="text" id="comment" placeholder="Comment"><br>
-  </form>
+        <form name="incomeInput" ng-submit="addIncome()">
+          <input type="number" ng-model="incomeInput.monthlyIncome" ng-change="updateYearlyIncome(incomeInput)" placeholder="Your Monthly income"/>
+          <input type="number" ng-model="incomeInput.yearlyIncome" ng-change="updateMonthlyIncome(incomeInput)" placeholder="Your Yearly income">
+          <button type="submit" class="btn btn-default">Submit Income</button>
+        </form>
+      </div>
 
-  <button id="postComment" class="btn btn-default">Post Comment</button>
-  <button id="getComments" class="btn btn-default">Get Comments</button>
-  <button id="deleteComments" class="btn btn-default">Delete All</button>
-  <div id="json"></div>
-  <div id="done"></div>
-  <div id="comments"></div>
-</div>
+      <div id="newCategory" class = "container">
+        <p>Enter Expense Category:</p>
 
-<div id="footer">
-  <p>Copyright 2017</p>
-</div>
+        <form name='rowInput' ng-submit="addNew(rowInput)">
+          <input type="text" ng-model="rowInput.name" placeholder="Category Expense Name"/>
+          <input type="number" ng-model="rowInput.monthlyExpense" ng-change="updateYearlyInput(rowInput)"  placeholder="The Monthly expense"/>
+          <input type="number" ng-model="rowInput.yearlyExpense" ng-change="updateMonthlyInput(rowInput)"  placeholder="The Yearly expense"/>
+          <button type="submit" class="btn btn-default">Add New Category</button>
+        </form>
 
-</div>
-</body>
-</html>
+        <p>i.e. rent, car, groceries, tuition, insurance, phone, etc.</p>
+      </div>
+
+      <div id="expenseDiv">
+          <table id="expenseTable" class="table table-bordered">
+            <thead class="thead-inverse">
+            <tr id="tableHeader">
+              <th>Expense Category</th>
+              <th>Monthly Value</th>
+              <th>Yearly Value</th>
+              <th>Percent</th>
+            </tr>
+            </thead>
+
+            <tr id="tithing">
+              <td>Tithing</td>
+              <td>{{monthlyTithing | currency}}</td>
+              <td>{{yearlyTithing | currency}}</td>
+              <td>Percent: 10%</td>
+            </tr>
+
+            <tr id="savings">
+              <td>Savings</td>
+              <td>{{monthlySavings | currency}}</td>
+              <td>{{yearlySavings | currency}}</td>
+              <td>Percent: {{savingsPercent | number:2}}%</td>
+            </tr>
+
+            <tr ng-repeat="row in rows">
+              <td>{{row.name}}</td>
+              <td>  $<input type="number" ng-model="row.monthlyExpense" ng-change="updateYearlyInput(row)" ng-init="row.monthlyExpense" />  </td>
+              <td>  $<input type="number" ng-model="row.yearlyExpense" ng-change="updateMonthlyInput(row)" ng-init="row.yearlyExpense" />  </td>
+              <td>  Percent:  {{row.percent | number:2}}%</td>
+              </tr>
+
+          </table>
+
+      </div>
+
+      <div id="footer">
+          <p>Copyright 2017</p>
+        </div>
+
+    </div>
+    </body>
+  </html>
