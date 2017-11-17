@@ -13,7 +13,7 @@ var savingsSchema = mongoose.Schema({
   yearlySavings: Number
 });
 
-var expensesSchema = mongoose.Schema({
+var expenseSchema = mongoose.Schema({
   name: String,
   monthlyExpense: Number,
   yearlyExpense: Number
@@ -21,7 +21,7 @@ var expensesSchema = mongoose.Schema({
 
 var Income = mongoose.model('Income', incomeSchema);
 var Savings = mongoose.model('Savings', savingsSchema);
-var Expenses = mongoose.model('Expenses', expensesSchema);
+var Expenses = mongoose.model('Expense', expenseSchema);
 
 var db = mongoose.connection; //Saves the connection as a variable to use
   db.on('error', console.error.bind(console, 'connection error:')); //Checks for connection errors
@@ -99,48 +99,5 @@ router.post('/expenses', function(req, res, next) {
   };
   res.sendStatus(200);
 });
-
-/* GET home page. */
-// router.get('/fake', function(req, res, next) {
-//   console.log("Inside Fake");
-//   var fakelist=[{Name:"Jim",Comment:"Hi"}];
-//   res.render('index', { title: 'Express' });
-// });
-//
-// /* GET comments from database */
-// router.get('/comment', function(req, res, next) {
-// console.log("In the GET route? yes");
-// Comment.find(function(err,commentList) { //Calls the find() method on your database
-//   if (err) return console.error(err); //If there's an error, print it out
-//   else {
-//     console.log(commentList); //Otherwise console log the comments you found
-//     res.json(commentList);
-//   }
-// })
-// });
-//
-// router.delete('/comment', function(req,res,next) {
-//   console.log("Delete");
-//   Comment.remove(function(err) {
-//     if(err) return console.error(err);
-//     else {
-//       console.log("Delete worked");
-//       res.sendStatus(200);
-//     }
-//   })
-// });
-//
-// router.post('/comment', function(req, res, next) {
-//   console.log("POST comment route"); //[1]
-//   console.log(req.body);
-//   var newcomment = new Comment(req.body); //[3]
-//   console.log(newcomment); //[3]
-//   newcomment.save(function(err, post) { //[4]
-//     if (err) return console.error(err);
-//     console.log(post);
-//     console.log(req.body); //[2]
-//     res.sendStatus(200);
-//   });
-// });
 
 module.exports = router;

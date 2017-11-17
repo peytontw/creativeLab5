@@ -19,3 +19,8 @@ table {
 .table th{
     border: black solid 1px !important;
 }
+
+#footer {
+  position: absolute;
+  bottom: 0;
+}
