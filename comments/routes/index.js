@@ -14,7 +14,7 @@ var savingsSchema = mongoose.Schema({
 });
 
 var expensesSchema = mongoose.Schema({
-  name: String
+  name: String,
   monthlyExpenses: Number,
   yearlyExpenses: Number
 });
@@ -34,7 +34,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/income', function(req, res, next) {
-  console.log("In the income GET route");
+  console.log('In the income GET route');
   Income.find(function(err, incomeList) {
     if (err) return console.error(err);
     else if (incomeList.length == 0) {
@@ -48,7 +48,7 @@ router.get('/income', function(req, res, next) {
   });
 });
 
-router.put('/income', function(req, res, next) {
+router.post('/income', function(req, res, next) {
   var newIncome = new Income(req.body);
   console.log(newIncome);
   Income.remove(function(err) {
@@ -67,17 +67,30 @@ router.get('/savings', function(req, res, next) {
   // {monthlySavings, yearlySavings}
 });
 
-router.get('/expenses', function(req, res, next) {
+router.put('/savings', function(req, res, next) {
   // res.render('index', { title: 'Express' });
   // [{name, monthlyExpense, yearlyExpense}]
 });
 
-router.put('/savings', function(req, res, next) {
-  // res.render('index', { title: 'Express' });
+router.get('/expenses', function(req, res, next) {
+  console.log('In the expenses GET route');
+  Expenses.find(function(err, expenseList) {
+    if (err) return console.error(err);
+    else {
+      console.log(expenseList);
+      res.json(expenseList);
+    }
+  });
 });
 
 router.put('/expenses', function(req, res, next) {
-  // res.render('index', { title: 'Express' });
+  var newExpense = new Expense(req.body);
+  console.log(newExpense);
+  newExpense.save(function(err, post) {
+    if (err) return console.error(err);
+    console.log(post);
+    res.sendStatus(200);
+  });
 });
 
 /* GET home page. */
