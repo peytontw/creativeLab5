@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Comments!</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="javascripts/comments.js"></script>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="stylesheets/style.css">
+</head>
+
+<body>
+<div id="mainDiv">
+
+  <div id="header">
+    <h1>Comments!</h1>
+  </div>
+
+  <div id="content" class="container con">
+  <form id="commentForm" action="">
+    <label for="name">Name:  </label><input type="text" id="name" placeholder="Name"><br>
+    <label for="comment">Comment:  </label><input type="text" id="comment" placeholder="Comment"><br>
+  </form>
+
+  <button id="postComment" class="btn btn-default">Post Comment</button>
+  <button id="getComments" class="btn btn-default">Get Comments</button>
+  <button id="deleteComments" class="btn btn-default">Delete All</button>
+  <div id="json"></div>
+  <div id="done"></div>
+  <div id="comments"></div>
+</div>
+
+<div id="footer">
+  <p>Copyright 2017</p>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+nohup: ignoring input
+Connected
+[0mGET / [36m304 [0m4.969 ms - -[0m
+[0mGET /javascripts/comments.js [36m304 [0m1.455 ms - -[0m
+[0mGET /stylesheets/style.css [36m304 [0m0.588 ms - -[0m
+[0mGET /stylesheets/blue2.jpg [36m304 [0m0.794 ms - -[0m
+[0mGET /favicon.ico [33m404 [0m297.693 ms - 1898[0m
+[0mGET / [32m200 [0m6.783 ms - 1074[0m
+[0mGET /favicon.ico [33m404 [0m59.057 ms - 1898[0m
+[0mGET / [32m200 [0m1.156 ms - 1074[0m
+[0mGET /favicon.ico [33m404 [0m50.430 ms - 1898[0m
+[0mGET /favicon.ico [33m404 [0m34.364 ms - 1898[0m
+[0mGET / [32m200 [0m0.503 ms - 1074[0m
+[0mGET /favicon.ico [33m404 [0m19.828 ms - 1898[0m
+[0mGET / [32m200 [0m0.561 ms - 1074[0m
+[0mGET /favicon.ico [33m404 [0m13.900 ms - 1898[0m
+In the GET route? yes
+[ { _id: 5a0caf805ab011315bac19fe,
+    title: 'test',
+    upvotes: 2,
+    __v: 0 },
+  { _id: 5a0cb6354e498c32396b2a1e,
+    title: 'hello',
+    upvotes: 1,
+    __v: 0 },
+  { _id: 5a0cb69b4e498c32396b2a1f,
+    title: 'new',
+    upvotes: 2,
+    __v: 0 } ]
+[0mGET /comment [32m200 [0m22.751 ms - 211[0m
+In the GET route? yes
+[ { _id: 5a0caf805ab011315bac19fe,
+    title: 'test',
+    upvotes: 2,
+    __v: 0 },
+  { _id: 5a0cb6354e498c32396b2a1e,
+    title: 'hello',
+    upvotes: 1,
+    __v: 0 },
+  { _id: 5a0cb69b4e498c32396b2a1f,
+    title: 'new',
+    upvotes: 2,
+    __v: 0 } ]
+[0mGET /comment [32m200 [0m3.359 ms - 211[0m
+[0mGET /favicon.ico [33m404 [0m9.525 ms - 1898[0m
+[0mGET / [32m200 [0m2.783 ms - 1074[0m
+In the GET route? yes
+[ { _id: 5a0caf805ab011315bac19fe,
+    title: 'test',
+    upvotes: 2,
+    __v: 0 },
+  { _id: 5a0cb6354e498c32396b2a1e,
+    title: 'hello',
+    upvotes: 1,
+    __v: 0 },
+  { _id: 5a0cb69b4e498c32396b2a1f,
+    title: 'new',
+    upvotes: 2,
+    __v: 0 } ]
+[0mGET /comment [32m200 [0m1.869 ms - 211[0m
