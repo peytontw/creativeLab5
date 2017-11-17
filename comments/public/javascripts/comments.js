@@ -45,7 +45,7 @@ angular.module('app', [])
   $http.get('/expenses').then(function(data){
     console.log(data);
 
-      angular.copy(data, $scope.rows);
+      angular.copy(data.data, $scope.rows);
 
 
       var totalMonthlyExpenses = 0;
@@ -60,8 +60,9 @@ angular.module('app', [])
       $scope.monthlySavings = savingsTotal;
       $scope.yearlySavings = (savingsTotal*12);
       $scope.savingsPercent = ($scope.monthlySavings / $scope.incomeInput.monthlyIncome * 100);
-    }
 
+
+      console.log("");
   });
 
 
@@ -115,6 +116,11 @@ angular.module('app', [])
     $scope.monthlySavings = savingsTotal;
     $scope.yearlySavings = (savingsTotal*12);
     $scope.savingsPercent = (savingsTotal/$scope.incomeInput.monthlyIncome * 100);
+
+    var myJSONrows = $scope.rows;
+    $http.post('/expenses', myJSONrows).then(function(data){
+      console.log("Expenses updated");
+    });
   };
 
   $scope.updateMonthlyInput = function(row) {
@@ -135,6 +141,11 @@ angular.module('app', [])
     $scope.monthlySavings = savingsTotal;
     $scope.yearlySavings = (savingsTotal*12);
     $scope.savingsPercent = (savingsTotal/$scope.incomeInput.monthlyIncome * 100);
+
+    var myJSONrows = $scope.rows;
+    $http.post('/expenses', myJSONrows).then(function(data){
+      console.log("Expenses updated");
+    });
   };
 
   $scope.addNew = function (row) {
