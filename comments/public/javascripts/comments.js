@@ -1,118 +1,145 @@
 angular.module('app', [])
-  .controller('mainCtrl', mainCtrl);
-//  .directive('expense', expenseDirective);
+.controller('mainCtrl', ['$scope', '$http', mainCtrl]);
 
 
-  function mainCtrl ($scope) {
+function mainCtrl ($scope, $http) {
 
-      $scope.rows=[];
+  $scope.rows=[];
 
-      $scope.monthlySavings = 0;
-      $scope.yearlySavings = 0;
-      $scope.savingsPercent = 0;
-      $scope.newMonthly = 0;
-      $scope.newYearly = 0;
-
-      $scope.addIncome = function () {
-
-        var totalMonthlyExpenses = 0;
-
-        for(var i=0; i<$scope.rows.length; i++){
-            totalMonthlyExpenses += $scope.rows[i].monthlyExpense;
-        }
-
-        var savingsTotal = ($scope.incomeInput.monthlyIncome);
-        savingsTotal -= totalMonthlyExpenses;
-
-        $scope.monthlySavings = savingsTotal;
-        $scope.yearlySavings = (savingsTotal*12);
-        $scope.savingsPercent = ($scope.monthlySavings / $scope.incomeInput.monthlyIncome * 100);
-    };
-
-    $scope.updateYearlyIncome = function(row) {
-        row.yearlyIncome = row.monthlyIncome * 12;
-    };
-
-    $scope.updateMonthlyIncome = function(row) {
-        row.monthlyIncome = row.yearlyIncome / 12;
-    };
+  $scope.monthlySavings = 0;
+  $scope.yearlySavings = 0;
+  $scope.savingsPercent = 0;
+  $scope.newMonthly = 0;
+  $scope.newYearly = 0;
 
 
-    $scope.updateYearlyInput = function(row) {
-        row.yearlyExpense = row.monthlyExpense * 12;
-        row.percent = row.monthlyExpense / $scope.incomeInput.monthlyIncome * 100;
+  $http.get('/income').success(function(data){
+    console.log(data);
 
-        var totalMonthlyExpenses = 0;
+    if (data.monthlyIncome != 0)
+    {
+      $scope.incomeInput.monthlyIncome = data.monthlyIncome;
+      $scope.incomeInput.yearlyIncome = data.yearlyIncome;
 
-        for (var i=0; i<$scope.rows.length; i++){
-            totalMonthlyExpenses += $scope.rows[i].monthlyExpense;
-        }
+      $scope.addIncome();
+    }
 
+    else
+    {
 
-        var savingsTotal = ($scope.incomeInput.monthlyIncome);
-        savingsTotal -= totalMonthlyExpenses;
+    }
 
-        $scope.monthlySavings = savingsTotal;
-        $scope.yearlySavings = (savingsTotal*12);
-        $scope.savingsPercent = (savingsTotal/$scope.incomeInput.monthlyIncome * 100);
-    };
-
-    $scope.updateMonthlyInput = function(row) {
-        row.monthlyExpense = row.yearlyExpense / 12;
-        row.percent = row.monthlyExpense / $scope.incomeInput.monthlyIncome * 100;
-
-        var totalMonthlyExpenses = 0;
-
-        for(var i=0; i<$scope.rows.length; i++){
-            totalMonthlyExpenses += $scope.rows[i].monthlyExpense;
-
-        }
+  )};
 
 
-        var savingsTotal = ($scope.incomeInput.monthlyIncome);
-        savingsTotal -= totalMonthlyExpenses;
+  $scope.addIncome = function () {
 
-        $scope.monthlySavings = savingsTotal;
-        $scope.yearlySavings = (savingsTotal*12);
-        $scope.savingsPercent = (savingsTotal/$scope.incomeInput.monthlyIncome * 100);
-    };
+    var totalMonthlyExpenses = 0;
 
-    $scope.addNew = function (row) {
+    for(var i=0; i<$scope.rows.length; i++){
+      totalMonthlyExpenses += $scope.rows[i].monthlyExpense;
+    }
 
-      if($scope.incomeInput.monthlyIncome <= 0){
-          alert("You can't buy things without money, fool ;) Add income first. Thanks.");
+    var savingsTotal = ($scope.incomeInput.monthlyIncome);
+    savingsTotal -= totalMonthlyExpenses;
+
+    $scope.monthlySavings = savingsTotal;
+    $scope.yearlySavings = (savingsTotal*12);
+    $scope.savingsPercent = ($scope.monthlySavings / $scope.incomeInput.monthlyIncome * 100);
+
+
+    var myJSONincome = {monthlyIncome:$scope.incomeInput.monthlyIncome, yearlyIncome:$scope.incomeInput.yearlyIncome};
+    $http.post('/income', myJSONincome).success(function(data){
+      console.log("Income updated");
+    });
+
+
+  };
+
+  $scope.updateYearlyIncome = function(row) {
+    row.yearlyIncome = row.monthlyIncome * 12;
+  };
+
+  $scope.updateMonthlyIncome = function(row) {
+    row.monthlyIncome = row.yearlyIncome / 12;
+  };
+
+
+  $scope.updateYearlyInput = function(row) {
+    row.yearlyExpense = row.monthlyExpense * 12;
+    row.percent = row.monthlyExpense / $scope.incomeInput.monthlyIncome * 100;
+
+    var totalMonthlyExpenses = 0;
+
+    for (var i=0; i<$scope.rows.length; i++){
+      totalMonthlyExpenses += $scope.rows[i].monthlyExpense;
+    }
+
+
+    var savingsTotal = ($scope.incomeInput.monthlyIncome);
+    savingsTotal -= totalMonthlyExpenses;
+
+    $scope.monthlySavings = savingsTotal;
+    $scope.yearlySavings = (savingsTotal*12);
+    $scope.savingsPercent = (savingsTotal/$scope.incomeInput.monthlyIncome * 100);
+  };
+
+  $scope.updateMonthlyInput = function(row) {
+    row.monthlyExpense = row.yearlyExpense / 12;
+    row.percent = row.monthlyExpense / $scope.incomeInput.monthlyIncome * 100;
+
+    var totalMonthlyExpenses = 0;
+
+    for(var i=0; i<$scope.rows.length; i++){
+      totalMonthlyExpenses += $scope.rows[i].monthlyExpense;
+
+    }
+
+
+    var savingsTotal = ($scope.incomeInput.monthlyIncome);
+    savingsTotal -= totalMonthlyExpenses;
+
+    $scope.monthlySavings = savingsTotal;
+    $scope.yearlySavings = (savingsTotal*12);
+    $scope.savingsPercent = (savingsTotal/$scope.incomeInput.monthlyIncome * 100);
+  };
+
+  $scope.addNew = function (row) {
+
+    if($scope.incomeInput.monthlyIncome <= 0){
+      alert("You can't buy things without money, fool ;) Add income first. Thanks.");
+    }
+    else {
+      $scope.newMonthly = row.monthlyExpense;
+      $scope.newYearly = row.yearlyExpense;
+
+      $scope.rows.push({
+        name: row.name,
+        monthlyExpense: row.monthlyExpense,
+        yearlyExpense: row.yearlyExpense,
+        percent: ((row.monthlyExpense / $scope.incomeInput.monthlyIncome) * 100)
+      });
+
+      row.name = '';
+      row.monthlyExpense = '';
+      row.yearlyExpense = '';
+
+      var totalMonthlyExpenses = 0;
+
+      for(var i=0; i<$scope.rows.length; i++){
+        totalMonthlyExpenses += $scope.rows[i].monthlyExpense;
       }
-      else {
-          $scope.newMonthly = row.monthlyExpense;
-          $scope.newYearly = row.yearlyExpense;
 
-          $scope.rows.push({
-            name: row.name,
-            monthlyExpense: row.monthlyExpense,
-            yearlyExpense: row.yearlyExpense,
-            percent: ((row.monthlyExpense / $scope.incomeInput.monthlyIncome) * 100)
-          });
+      var savingsTotal = ($scope.incomeInput.monthlyIncome);
+      savingsTotal -= totalMonthlyExpenses;
 
-          row.name = '';
-          row.monthlyExpense = '';
-          row.yearlyExpense = '';
+      $scope.monthlySavings = savingsTotal;
+      $scope.yearlySavings = (savingsTotal*12);
+      $scope.savingsPercent = (savingsTotal/$scope.incomeInput.monthlyIncome * 100);
+    }
 
-           var totalMonthlyExpenses = 0;
-
-            for(var i=0; i<$scope.rows.length; i++){
-                totalMonthlyExpenses += $scope.rows[i].monthlyExpense;
-            }
-
-            var savingsTotal = ($scope.incomeInput.monthlyIncome);
-            savingsTotal -= totalMonthlyExpenses;
-
-            $scope.monthlySavings = savingsTotal;
-            $scope.yearlySavings = (savingsTotal*12);
-            $scope.savingsPercent = (savingsTotal/$scope.incomeInput.monthlyIncome * 100);
-      }
-
-    };
-  }
+  };
+}
 
 
 // $(document).ready(function(){
