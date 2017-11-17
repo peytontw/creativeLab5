@@ -15,8 +15,8 @@ var savingsSchema = mongoose.Schema({
 
 var expensesSchema = mongoose.Schema({
   name: String,
-  monthlyExpenses: Number,
-  yearlyExpenses: Number
+  monthlyExpense: Number,
+  yearlyExpense: Number
 });
 
 var Income = mongoose.model('Income', incomeSchema);
@@ -83,14 +83,21 @@ router.get('/expenses', function(req, res, next) {
   });
 });
 
-router.put('/expenses', function(req, res, next) {
-  var newExpense = new Expense(req.body);
-  console.log(newExpense);
-  newExpense.save(function(err, post) {
-    if (err) return console.error(err);
-    console.log(post);
-    res.sendStatus(200);
+router.post('/expenses', function(req, res, next) {
+  var newExpenses = req.body;
+  console.log(newExpenses);
+  Expenses.remove(function(err) {
+    if (err) return console.log(err);
+    else console.log('Deleted old expenses');
   });
+  for(var i=0; i<newExpenses.length; i++){
+    var e = new Expense(newExpenses[i]);
+    e.save(function(err, post) {
+      if (err) return console.error(err);
+      console.log(post);
+    });
+  };
+  res.sendStatus(200);
 });
 
 /* GET home page. */
