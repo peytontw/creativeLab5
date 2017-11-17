@@ -16,7 +16,8 @@ var savingsSchema = mongoose.Schema({
 var expenseSchema = mongoose.Schema({
   name: String,
   monthlyExpense: Number,
-  yearlyExpense: Number
+  yearlyExpense: Number,
+  percent: Number
 });
 
 var Income = mongoose.model('Income', incomeSchema);
