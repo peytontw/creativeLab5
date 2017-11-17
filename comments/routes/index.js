@@ -21,7 +21,7 @@ var expenseSchema = mongoose.Schema({
 
 var Income = mongoose.model('Income', incomeSchema);
 var Savings = mongoose.model('Savings', savingsSchema);
-var Expenses = mongoose.model('Expense', expenseSchema);
+var Expense = mongoose.model('Expense', expenseSchema);
 
 var db = mongoose.connection; //Saves the connection as a variable to use
   db.on('error', console.error.bind(console, 'connection error:')); //Checks for connection errors
@@ -74,7 +74,7 @@ router.put('/savings', function(req, res, next) {
 
 router.get('/expenses', function(req, res, next) {
   console.log('In the expenses GET route');
-  Expenses.find(function(err, expenseList) {
+  Expense.find(function(err, expenseList) {
     if (err) return console.error(err);
     else {
       console.log(expenseList);
@@ -86,7 +86,7 @@ router.get('/expenses', function(req, res, next) {
 router.post('/expenses', function(req, res, next) {
   var newExpenses = req.body;
   console.log(newExpenses);
-  Expenses.remove(function(err) {
+  Expense.remove(function(err) {
     if (err) return console.log(err);
     else console.log('Deleted old expenses');
   });
