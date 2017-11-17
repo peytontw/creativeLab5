@@ -7,9 +7,7 @@ angular.module('app', [])
 
       $scope.rows=[];
 
-      $scope.monthlyTithing = 0;
       $scope.monthlySavings = 0;
-      $scope.yearlyTithing = 0;
       $scope.yearlySavings = 0;
       $scope.savingsPercent = 0;
       $scope.newMonthly = 0;
@@ -17,16 +15,13 @@ angular.module('app', [])
 
       $scope.addIncome = function () {
 
-        $scope.monthlyTithing = $scope.incomeInput.monthlyIncome*.1;
-        $scope.yearlyTithing = ($scope.monthlyTithing*12);
-
         var totalMonthlyExpenses = 0;
 
         for(var i=0; i<$scope.rows.length; i++){
             totalMonthlyExpenses += $scope.rows[i].monthlyExpense;
         }
 
-        var savingsTotal = ($scope.incomeInput.monthlyIncome - $scope.monthlyTithing);
+        var savingsTotal = ($scope.incomeInput.monthlyIncome);
         savingsTotal -= totalMonthlyExpenses;
 
         $scope.monthlySavings = savingsTotal;
@@ -54,7 +49,7 @@ angular.module('app', [])
         }
 
 
-        var savingsTotal = ($scope.incomeInput.monthlyIncome - $scope.monthlyTithing);
+        var savingsTotal = ($scope.incomeInput.monthlyIncome);
         savingsTotal -= totalMonthlyExpenses;
 
         $scope.monthlySavings = savingsTotal;
@@ -74,7 +69,7 @@ angular.module('app', [])
         }
 
 
-        var savingsTotal = ($scope.incomeInput.monthlyIncome - $scope.monthlyTithing);
+        var savingsTotal = ($scope.incomeInput.monthlyIncome);
         savingsTotal -= totalMonthlyExpenses;
 
         $scope.monthlySavings = savingsTotal;
@@ -84,7 +79,7 @@ angular.module('app', [])
 
     $scope.addNew = function (row) {
 
-      if($scope.monthlyTithing == 0){
+      if($scope.incomeInput.monthlyIncome <= 0){
           alert("You can't buy things without money, fool ;) Add income first. Thanks.");
       }
       else {
@@ -108,7 +103,7 @@ angular.module('app', [])
                 totalMonthlyExpenses += $scope.rows[i].monthlyExpense;
             }
 
-            var savingsTotal = ($scope.incomeInput.monthlyIncome - $scope.monthlyTithing);
+            var savingsTotal = ($scope.incomeInput.monthlyIncome);
             savingsTotal -= totalMonthlyExpenses;
 
             $scope.monthlySavings = savingsTotal;
